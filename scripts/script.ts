@@ -19,7 +19,7 @@ function SetupCanvas() {
     ctx.fillStyle = 'black'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ship = new Ship(canvasWidth / 2, canvasHeight / 2, 60, 600)
-    for(let i  = 0; i < 20; i++) {
+    for(let i  = 0; i < 3; i++) {
         enemies.push(new Enemy(0, 0, 0, 0, 0)) //0, 0, 0, 0, 60, 0
     }
     document.body.addEventListener('mousemove', function(e) {
@@ -118,8 +118,8 @@ class Enemy{
     ){
         this.x = Math.floor(Math.random() * canvasWidth)
         this.y = Math.floor(Math.random() * canvasHeight)
-        this.velX = Math.random() * 5 - 2.5
-        this.velY = Math.random() * 5 - 2.5
+        this.velX = Math.random() * 4 - 2.5
+        this.velY = Math.random() * 4 - 2.5
         this.radius = 50
     }
 
@@ -166,15 +166,23 @@ class Enemy{
     }
 }
 
+// function respawnEnemies(toSpawn: number){
+//     // Respawns enemies that are "dead"
+//     // for loop that checks all enemies, those that have radius of 0, will set to 50. And, incrememnt a counter - 
+//     // when that counter is equal to toSpawn(), then exit the for loop. break
+//     for(let i = 0; i < enemies.length && toSpawn > 0; i++){
+//         if(enemies[i].radius == 0){
+//             enemies[i].radius = 50
+//             toSpawn--
+//         }
+//     }
+// }
 
-function respawnEnemies(toSpawn: number){
-    // Respawns enemies that are "dead"
-    // for loop that checks all enemies, those that have radius of 0, will set to 50. And, incrememnt a counter - 
-    //when that counter is equal to toSpawn(), then exit the for loop. break
-    for(let i = 0; i < enemies.length && toSpawn > 0; i++){
-        if(enemies[i].radius == 0){
-            enemies[i].radius = 50
-            toSpawn--
+
+function respawnEnemies(){
+    for(let i = 0; i < enemies.length; i++){
+        if(enemies.length == 0){
+            enemies.push(new Enemy(0, 0, 0, 0, 0))
         }
     }
 }
@@ -187,34 +195,39 @@ function pythag(x1: number, y1:number, x2:number, y2:number):number{
 
 function Render(){
     ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+    ctx.fillStyle = 'white'
+    ctx.font = '21px Arial'
+    ctx.fillText("SCORE: " + score.toString(), 20, 35)
+    if(ship.HP <= 0){
+        ctx.fillStyle = 'white'
+        ctx.font = '50px Arial'
+        ctx.fillText("GAME OVER", canvasWidth / 2 - 150, canvasHeight / 2)
+    }
     ship.draw()
+
     ship.shipHitDetection(enemies)
-    let alive = 0
+    
+    // let alive = 0
+    // for(let i = 0; i < enemies.length; i++){
+    //     enemies[i].draw()
+    //     if(enemies[i].radius != 0){
+    //         alive++
+    //     }
+    // }
 
-    for(let i = 0; i < enemies.length; i++){
-        enemies[i].draw()
-        if(enemies[i].radius != 0){
-            alive++
-        }
-    }
+    // if(alive <= 1){
+    //     respawnEnemies()
+    // }
 
-    if(alive < 1){
-        respawnEnemies(20)
-    }
     if(enemies.length !== 0) {
         for(let i = 0; i < enemies.length; i++){
             enemies[i].update()
             enemies[i].draw()
             enemies[i].enemyHitDetection(ship)
-
         } 
     }
     requestAnimationFrame(Render)
 }
-
-
-
-
 
 SetupCanvas()
 Render()
