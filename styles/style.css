@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+}
+
+#game {
+    max-width: 1400px;
+    margin: auto;
+}
+
+.canvas {
+    background: black;
+    border: 1px solid slategray;
+    width: 800px;
+    height: 500px;
+    position: absolute;
+    margin: 0 auto;
+}
