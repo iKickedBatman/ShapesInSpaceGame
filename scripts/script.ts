@@ -19,7 +19,7 @@ function SetupCanvas() {
     ctx.fillStyle = 'black'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ship = new Ship(canvasWidth / 2, canvasHeight / 2, 60, 600)
-    for(let i  = 0; i < 3; i++) {
+    for(let i  = 0; i < 15; i++) {
         enemies.push(new Enemy(0, 0, 0, 0, 0)) //0, 0, 0, 0, 60, 0
     }
     document.body.addEventListener('mousemove', function(e) {
